@@ -4,5 +4,5 @@ dist
 .nyc_output
 *.env
 .DS_Store
-.idea
+.idea/
 *.tgz

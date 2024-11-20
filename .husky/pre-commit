@@ -13,7 +13,7 @@ npx lint-staged
 echo "* Finished lint check"
 
 # echo "* Validating no .only in tests"
-# npm run test -- --dry-run
+# npm run tests -- --dry-run
 # echo "* Finished .only check"
 
 echo "* Validating dependencies"

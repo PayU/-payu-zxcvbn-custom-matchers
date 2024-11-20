@@ -12,6 +12,7 @@
     "prepack": "rm -rf dist; tsc -p tsconfig.json",
     "test": "npx mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts",
     "test:coverage": "npx nyc npm run test",
+    "test:coveralls": "npm run test:coverage && cat ./coverage/lcov.info",
     "lint": "npx eslint . --ext .ts"
   },
   "repository": {
@@ -24,23 +25,12 @@
   ],
   "author": "Kobi Carmeli",
   "license": "ISC",
-  "dependencies": {
-    "@zxcvbn-ts/core": "^3.0.4"
-  },
   "devDependencies": {
-    "@types/chai-as-promised": "^7.1.5",
-    "@types/chai-datetime": "^0.0.37",
-    "@types/chai-subset": "^1.3.3",
-    "@types/chai-uuid": "^1.0.2",
     "@types/mocha": "^10.0.6",
-    "@types/sinon-chai": "^3.2.9",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
-    "chai": "^4.4.1",
-    "chai-as-promised": "^7.1.1",
-    "chai-datetime": "^1.8.0",
-    "chai-subset": "^1.6.0",
-    "chai-uuid": "^1.0.6",
+    "@zxcvbn-ts/core": "^3.0.4",
+    "chai": "^5.1.2",
     "depcheck": "^1.4.3",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^9.0.0",
@@ -48,7 +38,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.0.1",
     "mocha": "^10.2.0",
-    "sinon-chai": "^3.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
