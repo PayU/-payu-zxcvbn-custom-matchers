@@ -1,2 +1,2 @@
-ignores: ["dotenv", "leasot", "pino-pretty", "depcheck", "lint-staged", "ts-node"]
+ignores: ["dotenv", "depcheck", "lint-staged", "ts-node"]
 ignorePatterns: [".history/*"]
