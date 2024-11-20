@@ -1,0 +1,21 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "* Validating working branch..."
+if [[ $(git rev-parse --abbrev-ref HEAD) == master ]];then
+  echo "ERROR: can't commit to master branch"
+  exit 1
+fi
+echo "* Finished branch validation"
+
+echo "* Verifying the code is linted..."
+npx lint-staged
+echo "* Finished lint check"
+
+# echo "* Validating no .only in tests"
+# npm run test -- --dry-run
+# echo "* Finished .only check"
+
+echo "* Validating dependencies"
+npx depcheck
+echo "* Finished dependecies check"
