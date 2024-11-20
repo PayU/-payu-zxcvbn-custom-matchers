@@ -1,1 +1,1 @@
-export { testMatcher } from './matchers/testMatcher';
+export { characterRequirementsMatcher } from './matchers/characterRequirementsMatcher';
