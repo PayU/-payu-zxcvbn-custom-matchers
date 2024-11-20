@@ -12,6 +12,7 @@
     "prepack": "rm -rf dist; tsc -p tsconfig.json",
     "test": "npx mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts",
     "test:coverage": "npx nyc npm run test",
+    "test:coveralls": "npm run test:coverage && cat ./coverage/lcov.info",
     "lint": "npx eslint . --ext .ts"
   },
   "repository": {
