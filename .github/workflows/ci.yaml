@@ -12,8 +12,8 @@ jobs:
     name: package-lock lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 22
       - name: lint package-lock
@@ -23,13 +23,13 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
-        node: ['18','20','22']
+        node: ['18', '20', '22']
     needs: [package-lock-lint]
-    name: test (node V${{ matrix.node}})
+    name: test (node V${{ matrix.node }})
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
