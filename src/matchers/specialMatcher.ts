@@ -3,19 +3,13 @@ import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
 export const specialMatcher: Matcher = {
   Matching: class SpecialMatcher {
     match({ password }: { password: string }): Match[] {
-      const matches: Match[] = [];
       const specialChars = "!@#$%^&*()_+[]{}|;:',.<>?/";
-      let hasSpecial = false;
       for (const char of password) {
         if (specialChars.includes(char)) {
-          hasSpecial = true;
-          break;
+          return [];
         }
       }
-      if (!hasSpecial) {
-        matches.push({ pattern: 'special', token: password, i: 0, j: password.length - 1 });
-      }
-      return matches;
+      return [{ pattern: 'special', token: password, i: 0, j: password.length - 1 }];
     }
   },
   feedback(_match) {

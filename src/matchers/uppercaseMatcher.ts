@@ -3,18 +3,12 @@ import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
 export const uppercaseMatcher: Matcher = {
   Matching: class UppercaseMatcher {
     match({ password }: { password: string }): Match[] {
-      const matches: Match[] = [];
-      let hasUppercase = false;
       for (const char of password) {
         if (char >= 'A' && char <= 'Z') {
-          hasUppercase = true;
-          break;
+          return [];
         }
       }
-      if (!hasUppercase) {
-        matches.push({ pattern: 'uppercase', token: password, i: 0, j: password.length - 1 });
-      }
-      return matches;
+      return [{ pattern: 'uppercase', token: password, i: 0, j: password.length - 1 }];
     }
   },
   feedback(_match) {

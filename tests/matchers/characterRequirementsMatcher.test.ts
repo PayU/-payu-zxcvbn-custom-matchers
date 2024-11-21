@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher } from '../../src';
 
-describe('when matching character requirements', () => {
+describe('character requirements matchers and feedback', () => {
   it('should return a match for missing uppercase letters', () => {
     const result = uppercaseMatcher.Matching.prototype.match({ password: 'password123!' });
     expect(result).to.deep.include({ pattern: 'uppercase', token: 'password123!', i: 0, j: 11 });
@@ -33,9 +33,7 @@ describe('when matching character requirements', () => {
     expect(resultNumber).to.be.empty;
     expect(resultSpecial).to.be.empty;
   });
-});
 
-describe('when providing feedback for character requirements', () => {
   it('should provide correct feedback for missing uppercase letters', () => {
     const match = { pattern: 'uppercase', token: 'password123!', i: 0, j: 11, guesses: 1, guessesLog10: 0 };
     const feedback = uppercaseMatcher.feedback(match);
