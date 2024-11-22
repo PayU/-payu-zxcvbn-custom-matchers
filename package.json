@@ -10,27 +10,26 @@
   "scripts": {
     "prepare": "husky install",
     "prepack": "rm -rf dist; tsc -p tsconfig.json",
-    "test": "npx mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts",
-    "test:coverage": "npx nyc npm run test",
+    "test": "mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts",
+    "test:coverage": "nyc npm run test",
     "test:coveralls": "npm run test:coverage && cat ./coverage/lcov.info",
-    "lint": "npx eslint . --ext .ts"
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/PayU/zxcvbn-custom-matchers.git"
   },
   "keywords": [
-    "logger",
-    "redact"
+    "zxcvbn"
   ],
-  "author": "Kobi Carmeli",
-  "license": "ISC",
+  "author": "Ilan Kushnir",
+  "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^10.0.6",
+    "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
     "@zxcvbn-ts/core": "^3.0.4",
-    "chai": "^5.1.2",
+    "chai": "^4.5.0",
     "depcheck": "^1.4.3",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^9.0.0",
@@ -38,6 +37,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.0.1",
     "mocha": "^10.2.0",
+    "nyc": "^17.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
