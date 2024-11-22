@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher } from '../../src';
+import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher } from '../../../src';
 
 describe('character requirements matchers and feedback', () => {
   it('should return a match for missing uppercase letters', () => {
