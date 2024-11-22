@@ -10,7 +10,7 @@
   "scripts": {
     "prepare": "husky install",
     "prepack": "rm -rf dist; tsc -p tsconfig.json",
-    "test": "npx mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts",
+    "test": "npx mocha tests/**/*.test.ts tests/unit/**/**/*.test.ts --config .mocharc.js",
     "test:coverage": "npx nyc npm run test",
     "test:coveralls": "npm run test:coverage && cat ./coverage/lcov.info",
     "lint": "npx eslint . --ext .ts"
@@ -26,7 +26,6 @@
   "author": "Kobi Carmeli",
   "license": "ISC",
   "devDependencies": {
-    "@types/mocha": "^10.0.6",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
     "@zxcvbn-ts/core": "^3.0.4",
