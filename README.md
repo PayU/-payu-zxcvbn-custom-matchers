@@ -1,10 +1,10 @@
-# @payu/zxcvbn-custom-matchers
+# @zxcvbn-custom-matchers
 
 The package is adding custom matchers to the zxcvbn-ts package. The matchers enforce specific character requirements in passwords and provide feedback and scoring.
 
 ## Installation
 ```sh
-npm install @payu/zxcvbn-custom-matchers
+npm install zxcvbn-custom-matchers
 ```
 
 ### Usage
@@ -15,7 +15,7 @@ import {
     numberMatcher,
     specialMatcher,
     uppercaseMatcher
-} from '@payu/zxcvbn-custom-matchers';
+} from 'zxcvbn-custom-matchers';
 
 // Add the matchers
 zxcvbnOptions.addMatcher('lowercaseMatcher', lowercaseMatcher);
