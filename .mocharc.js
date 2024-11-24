@@ -5,7 +5,6 @@ module.exports = {
     require: [
         'ts-node/register',         // required for running tests with TypeScript
     ],
-    extension: ['ts'],
     recursive: true,
     exit: true,
     timeout: 2000
