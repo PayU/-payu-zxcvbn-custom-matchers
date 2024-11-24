@@ -95,7 +95,7 @@ describe('minLengthMatcher', () => {
   it('should provide correct feedback for passwords shorter than the minimum length', () => {
     const match = { pattern: 'minLength', token: 'short', i: 0, j: 4, guesses: 1, guessesLog10: 0 };
     const feedback = matcher.feedback(match);
-    expect(feedback.warning).to.equal(`Password must be at least ${minLength} characters long.`);
+    expect(feedback.warning).to.equal(`Password may not be shorter than ${minLength} characters.`);
   });
 
   it('should return a score of -100 for passwords shorter than the minimum length', () => {
