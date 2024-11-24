@@ -1,3 +1,4 @@
+import 'mocha';
 import { expect } from 'chai';
 import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher } from '../../src';
 
