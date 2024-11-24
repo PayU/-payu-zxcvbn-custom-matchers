@@ -20,11 +20,10 @@
     "url": "https://github.com/PayU/zxcvbn-custom-matchers.git"
   },
   "keywords": [
-    "logger",
-    "redact"
+    "zxcvbn"
   ],
-  "author": "Kobi Carmeli",
-  "license": "ISC",
+  "author": "Ilan Kushnir",
+  "license": "MIT",
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
