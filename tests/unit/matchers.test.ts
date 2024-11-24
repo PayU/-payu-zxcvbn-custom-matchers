@@ -58,4 +58,28 @@ describe('character requirements matchers and feedback', () => {
     const feedback = specialMatcher.feedback(match);
     expect(feedback.warning).to.equal('Include at least one special character.');
   });
+
+  it('should return a score of -100 for missing uppercase letters', () => {
+    const match = { pattern: 'uppercase', token: 'password123!', i: 0, j: 11 };
+    const score = uppercaseMatcher.scoring(match);
+    expect(score).to.equal(-100);
+  });
+
+  it('should return a score of -100 for missing lowercase letters', () => {
+    const match = { pattern: 'lowercase', token: 'PASSWORD123!', i: 0, j: 11 };
+    const score = lowercaseMatcher.scoring(match);
+    expect(score).to.equal(-100);
+  });
+
+  it('should return a score of -100 for missing numbers', () => {
+    const match = { pattern: 'number', token: 'Password!', i: 0, j: 8 };
+    const score = numberMatcher.scoring(match);
+    expect(score).to.equal(-100);
+  });
+
+  it('should return a score of -100 for missing special characters', () => {
+    const match = { pattern: 'special', token: 'Password123', i: 0, j: 10 };
+    const score = specialMatcher.scoring(match);
+    expect(score).to.equal(-100);
+  });
 });
