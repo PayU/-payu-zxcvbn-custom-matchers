@@ -11,7 +11,7 @@ export const minLengthMatcher = (minLength: number): Matcher => ({
     }
   },
   feedback(_match) {
-    return { warning: `Password must be at least ${minLength} characters long.`, suggestions: [] };
+    return { warning: `Password may not be shorter than ${minLength} characters.`, suggestions: [] };
   },
   scoring(_match) {
     return -100;
