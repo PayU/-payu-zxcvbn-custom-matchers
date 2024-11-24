@@ -1,5 +1,5 @@
 {
-  "name": "@payu/zxcvbn-custom-matchers",
+  "name": "zxcvbn-custom-matchers",
   "version": "0.0.0",
   "description": "Extended matchers for zxcvbn package for passwords validation",
   "main": "dist/src/index.js",
