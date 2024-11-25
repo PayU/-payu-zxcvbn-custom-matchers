@@ -10,8 +10,11 @@ export const minLengthMatcher = (minLength: number): Matcher => ({
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: `Password may not be shorter than ${minLength} characters.`, suggestions: [] };
+  feedback: options => {
+    return {
+      warning: (options.translations.warnings.minLength = 'minLength'),
+      suggestions: [],
+    };
   },
   scoring(_match) {
     return -100;

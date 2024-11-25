@@ -9,12 +9,15 @@ export const lowercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'lowercase', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'oneLowercase', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one lowercase letter.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings.oneLowercase || 'oneLowercase',
+      suggestions: [],
+    };
   },
   scoring(_match) {
     return -100;

@@ -10,12 +10,15 @@ export const specialMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'special', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'oneSpecial', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one special character.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings.oneSpecial || 'oneSpecial',
+      suggestions: [],
+    };
   },
   scoring(_match) {
     return -100;

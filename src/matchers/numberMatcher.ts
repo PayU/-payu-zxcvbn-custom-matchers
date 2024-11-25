@@ -9,12 +9,15 @@ export const numberMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'number', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'oneNumber', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one number.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings.oneNumber || 'oneNumber',
+      suggestions: [],
+    };
   },
   scoring(_match) {
     return -100;
