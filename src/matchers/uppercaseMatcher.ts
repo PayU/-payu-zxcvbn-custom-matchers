@@ -9,13 +9,13 @@ export const uppercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'oneUppercase', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'uppercaseRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.oneUppercase || 'oneUppercase',
+      warning: options.translations.warnings.uppercaseRequired || 'uppercaseRequired',
       suggestions: [],
     };
   },

@@ -10,13 +10,13 @@ export const specialMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'oneSpecial', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'specialRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.oneSpecial || 'oneSpecial',
+      warning: options.translations.warnings.specialRequired || 'specialRequired',
       suggestions: [],
     };
   },

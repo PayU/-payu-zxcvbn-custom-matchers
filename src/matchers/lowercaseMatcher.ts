@@ -9,13 +9,13 @@ export const lowercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'oneLowercase', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'lowercaseRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.oneLowercase || 'oneLowercase',
+      warning: options.translations.warnings.lowercaseRequired || 'lowercaseRequired',
       suggestions: [],
     };
   },
