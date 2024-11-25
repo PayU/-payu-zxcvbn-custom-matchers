@@ -19,11 +19,11 @@ import {
 } from 'zxcvbn-custom-matchers';
 
 // Add the matchers
-zxcvbnOptions.addMatcher('lowercase', lowercaseMatcher);
-zxcvbnOptions.addMatcher('number', numberMatcher);
-zxcvbnOptions.addMatcher('special', specialMatcher);
-zxcvbnOptions.addMatcher('uppercase', uppercaseMatcher);
-zxcvbnOptions.addMatcher('minLength', minLengthMatcher(10));
+zxcvbnOptions.addMatcher('oneLowercase', lowercaseMatcher);
+zxcvbnOptions.addMatcher('minLength', numberMatcher);
+zxcvbnOptions.addMatcher('oneNumber', specialMatcher);
+zxcvbnOptions.addMatcher('oneSpecial', uppercaseMatcher);
+zxcvbnOptions.addMatcher('oneUppercase', minLengthMatcher(10));
 
 // Use zxcvbn as usual
 import { zxcvbn } from '@zxcvbn-ts/core';
