@@ -18,6 +18,12 @@ import {
     minLengthMatcher
 } from 'zxcvbn-custom-matchers';
 
+// Add the matchers' translations
+const options = {
+    translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
+};
+zxcvbnOptions.setOptions(options);
+
 // Add the matchers
 zxcvbnOptions.addMatcher('lowercaseRequired', lowercaseMatcher);
 zxcvbnOptions.addMatcher('minLength', numberMatcher);
