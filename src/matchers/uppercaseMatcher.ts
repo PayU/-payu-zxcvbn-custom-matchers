@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const uppercaseMatcher: Matcher = {
   Matching: class UppercaseMatcher {
@@ -9,14 +9,17 @@ export const uppercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'uppercase', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'uppercaseRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one uppercase letter.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings['uppercaseRequired'] || 'uppercaseRequired',
+      suggestions: [options.translations.suggestions['uppercaseRequired'] || 'uppercaseRequired'],
+    };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };

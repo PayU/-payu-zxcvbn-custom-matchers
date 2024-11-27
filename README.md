@@ -1,6 +1,7 @@
 # @zxcvbn-custom-matchers
 
 The package is adding custom matchers to the zxcvbn-ts package. The matchers enforce specific character requirements in passwords and provide feedback and scoring.
+> Please note! this package works only with zxcvbn-ts v.4 and above.
 
 ## Installation
 ```sh
@@ -9,25 +10,33 @@ npm install zxcvbn-custom-matchers
 
 ### Usage
 ```ts
-import { zxcvbnOptions } from '@zxcvbn-ts/core';
+import { ZxcvbnFactory } from '@zxcvbn-ts/core';
 import {
-    lowercaseMatcher,
     numberMatcher,
     specialMatcher,
+    lowercaseMatcher,
     uppercaseMatcher,
-    minLengthMatcher
+    minLengthMatcher,
+    customMatchersTranslations
 } from 'zxcvbn-custom-matchers';
+import { merge } from 'lodash';
 
-// Add the matchers
-zxcvbnOptions.addMatcher('lowercase', lowercaseMatcher);
-zxcvbnOptions.addMatcher('number', numberMatcher);
-zxcvbnOptions.addMatcher('special', specialMatcher);
-zxcvbnOptions.addMatcher('uppercase', uppercaseMatcher);
-zxcvbnOptions.addMatcher('minLength', minLengthMatcher(10));
+// Add the custom matchers and their translations
+const options = {
+    translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
+};
+const customMatchers = {
+    minLength: minLengthMatcher(commons.MIN_PASSWORD_LENGTH),
+    specialRequired: specialMatcher,
+    numberRequired: numberMatcher,
+    lowercaseRequired: lowercaseMatcher,
+    uppercaseRequired: uppercaseMatcher
+};
+const zxcvbn = new ZxcvbnFactory(options, customMatchers);
 
 // Use zxcvbn as usual
 import { zxcvbn } from '@zxcvbn-ts/core';
-const result = zxcvbn('password123');
+const result = zxcvbn.check('password123');
 console.log(result);
 ```
 

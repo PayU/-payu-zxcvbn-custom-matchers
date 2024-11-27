@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const minLengthMatcher = (minLength: number): Matcher => ({
   Matching: class MinLengthMatcher {
@@ -10,10 +10,13 @@ export const minLengthMatcher = (minLength: number): Matcher => ({
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: `Password may not be shorter than ${minLength} characters.`, suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings['minLength']?.replace('%s', minLength) || 'minLength',
+      suggestions: [options.translations.suggestions['minLength']?.replace('%s', minLength) || 'minLength'],
+    };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 });

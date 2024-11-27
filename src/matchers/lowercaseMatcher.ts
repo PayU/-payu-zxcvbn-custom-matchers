@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const lowercaseMatcher: Matcher = {
   Matching: class LowercaseMatcher {
@@ -9,14 +9,17 @@ export const lowercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'lowercase', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'lowercaseRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one lowercase letter.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings['lowercaseRequired'] || 'lowercaseRequired',
+      suggestions: [options.translations.suggestions['lowercaseRequired'] || 'lowercaseRequired'],
+    };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };

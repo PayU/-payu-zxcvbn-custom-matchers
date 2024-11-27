@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const numberMatcher: Matcher = {
   Matching: class NumberMatcher {
@@ -9,14 +9,17 @@ export const numberMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'number', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: 'numberRequired', token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
-  feedback(_match) {
-    return { warning: 'Include at least one number.', suggestions: [] };
+  feedback: options => {
+    return {
+      warning: options.translations.warnings['numberRequired'] || 'numberRequired',
+      suggestions: [options.translations.suggestions['numberRequired'] || 'numberRequired'],
+    };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };
