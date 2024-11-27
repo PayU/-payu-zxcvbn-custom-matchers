@@ -16,7 +16,7 @@ export const lowercaseMatcher: Matcher = {
   feedback: options => {
     return {
       warning: options.translations.warnings.lowercaseRequired || 'lowercaseRequired',
-      suggestions: [],
+      suggestions: [options.translations.suggestions.lowercaseRequired || 'lowercaseRequired'],
     };
   },
   scoring(_match) {

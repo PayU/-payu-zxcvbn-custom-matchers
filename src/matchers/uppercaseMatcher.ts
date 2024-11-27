@@ -16,7 +16,7 @@ export const uppercaseMatcher: Matcher = {
   feedback: options => {
     return {
       warning: options.translations.warnings.uppercaseRequired || 'uppercaseRequired',
-      suggestions: [],
+      suggestions: [options.translations.suggestions.uppercaseRequired || 'uppercaseRequired'],
     };
   },
   scoring(_match) {

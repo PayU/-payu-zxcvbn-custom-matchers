@@ -17,7 +17,7 @@ export const specialMatcher: Matcher = {
   feedback: options => {
     return {
       warning: options.translations.warnings.specialRequired || 'specialRequired',
-      suggestions: [],
+      suggestions: [options.translations.suggestions.specialRequired || 'specialRequired'],
     };
   },
   scoring(_match) {

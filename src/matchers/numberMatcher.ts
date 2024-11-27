@@ -16,7 +16,7 @@ export const numberMatcher: Matcher = {
   feedback: options => {
     return {
       warning: options.translations.warnings.numberRequired || 'numberRequired',
-      suggestions: [],
+      suggestions: [options.translations.suggestions.numberRequired || 'numberRequired'],
     };
   },
   scoring(_match) {

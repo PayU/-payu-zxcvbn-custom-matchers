@@ -12,8 +12,8 @@ export const minLengthMatcher = (minLength: number): Matcher => ({
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.minLength || 'minLength',
-      suggestions: [],
+      warning: options.translations.warnings.minLength?.replace('%s', minLength) || 'minLength',
+      suggestions: [options.translations.suggestions.minLength?.replace('%s', minLength) || 'minLength'],
     };
   },
   scoring(_match) {
