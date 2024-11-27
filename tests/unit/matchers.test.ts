@@ -7,7 +7,9 @@ describe('uppercaseMatcher', () => {
   it('should return a match for missing uppercase letters', () => {
     const result = uppercaseMatcher.Matching.prototype.match({ password: 'password123!' });
     expect(result).to.deep.include({ pattern: 'uppercaseRequired', token: 'password123!', i: 0, j: 11 });
-    expect(customMatchersTranslations.warnings.uppercaseRequired).to.equal('At least one uppercase letter is required.');
+    expect(customMatchersTranslations.warnings.uppercaseRequired).to.equal(
+      'At least one uppercase letter is required.',
+    );
     expect(customMatchersTranslations.suggestions.uppercaseRequired).to.equal('Include at least one uppercase letter.');
   });
 
@@ -22,7 +24,9 @@ describe('lowercaseMatcher', () => {
   it('should return a match for missing lowercase letters', () => {
     const result = lowercaseMatcher.Matching.prototype.match({ password: 'PASSWORD123!' });
     expect(result).to.deep.include({ pattern: 'lowercaseRequired', token: 'PASSWORD123!', i: 0, j: 11 });
-    expect(customMatchersTranslations.warnings.lowercaseRequired).to.equal('At least one lowercase letter is required.');
+    expect(customMatchersTranslations.warnings.lowercaseRequired).to.equal(
+      'At least one lowercase letter is required.',
+    );
     expect(customMatchersTranslations.suggestions.lowercaseRequired).to.equal('Include at least one lowercase letter.');
   });
 
@@ -71,7 +75,9 @@ describe('minLengthMatcher', () => {
     const result = matcher.Matching.prototype.match({ password: 'short' });
     expect(result).to.deep.include({ pattern: 'minLength', token: 'short', i: 0, j: 4 });
     expect(customMatchersTranslations.warnings.minLength).to.equal('Password must be at least 12 characters long.');
-    expect(customMatchersTranslations.suggestions.minLength).to.equal('Password may not be shorter than 12 characters.');
+    expect(customMatchersTranslations.suggestions.minLength).to.equal(
+      'Password may not be shorter than 12 characters.',
+    );
   });
 
   it('should return no matches for passwords meeting the minimum length', () => {
