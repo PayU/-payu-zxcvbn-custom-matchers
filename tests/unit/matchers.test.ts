@@ -1,107 +1,134 @@
 import 'mocha';
 import { expect } from 'chai';
-import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher, minLengthMatcher } from '../../src';
-import { customMatchersTranslations } from '../../src/translations';
+import { ZxcvbnFactory, type OptionsType } from '@zxcvbn-ts/core';
+import {
+  uppercaseMatcher,
+  lowercaseMatcher,
+  numberMatcher,
+  specialMatcher,
+  minLengthMatcher,
+  customMatchersTranslations,
+} from '../../src';
+import { translations as baseTranslations } from '@zxcvbn-ts/language-en';
+import { merge } from 'lodash';
 
-describe('uppercaseMatcher', () => {
-  it('should return a match for missing uppercase letters', () => {
-    const result = uppercaseMatcher.Matching.prototype.match({ password: 'password123!' });
-    expect(result).to.deep.include({ pattern: 'uppercaseRequired', token: 'password123!', i: 0, j: 11 });
-    expect(customMatchersTranslations.warnings.uppercaseRequired).to.equal(
-      'At least one uppercase letter is required.',
-    );
-    expect(customMatchersTranslations.suggestions.uppercaseRequired).to.equal('Include at least one uppercase letter.');
+const MIN_LENGTH = 12;
+const MIN_SECURE_SCORE = 3;
+const PERFECT_SCORE = 4;
+const SAMPLE_STRONG_PASSWORD = 'de#dSh251dft!';
+
+// Package setup
+const customMatchers = {
+  minLength: minLengthMatcher(MIN_LENGTH),
+  specialRequired: specialMatcher,
+  numberRequired: numberMatcher,
+  lowercaseRequired: lowercaseMatcher,
+  uppercaseRequired: uppercaseMatcher,
+};
+const mergedTranslations = merge({}, baseTranslations, customMatchersTranslations);
+const options: OptionsType = { translations: mergedTranslations };
+const zxcvbn = new ZxcvbnFactory(options, customMatchers);
+
+describe('Password Validation Requirements', () => {
+  describe('Uppercase Character Requirement', () => {
+    it('should detect when uppercase letters are missing', () => {
+      const result = zxcvbn.check('password123!');
+      const hasUppercaseWarning = result.feedback.warning === customMatchersTranslations.warnings.uppercaseRequired;
+
+      expect(hasUppercaseWarning).to.be.true;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
+
+    it('should pass when uppercase letter is included', () => {
+      const result = zxcvbn.check('Password123!');
+      const hasUppercaseWarning = result.feedback.warning === customMatchersTranslations.warnings.uppercaseRequired;
+
+      expect(hasUppercaseWarning).to.be.false;
+    });
   });
 
-  it('should return a score of -100 for missing uppercase letters', () => {
-    const match = { pattern: 'uppercaseRequired', token: 'password123!', i: 0, j: 11 };
-    const score = uppercaseMatcher.scoring(match);
-    expect(score).to.equal(-100);
-  });
-});
+  describe('Lowercase Character Requirement', () => {
+    it('should detect when lowercase letters are missing', () => {
+      const result = zxcvbn.check('PASSWORD123!');
+      const hasLowercaseWarning = result.feedback.warning === customMatchersTranslations.warnings.lowercaseRequired;
 
-describe('lowercaseMatcher', () => {
-  it('should return a match for missing lowercase letters', () => {
-    const result = lowercaseMatcher.Matching.prototype.match({ password: 'PASSWORD123!' });
-    expect(result).to.deep.include({ pattern: 'lowercaseRequired', token: 'PASSWORD123!', i: 0, j: 11 });
-    expect(customMatchersTranslations.warnings.lowercaseRequired).to.equal(
-      'At least one lowercase letter is required.',
-    );
-    expect(customMatchersTranslations.suggestions.lowercaseRequired).to.equal('Include at least one lowercase letter.');
-  });
+      expect(hasLowercaseWarning).to.be.true;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
 
-  it('should return a score of -100 for missing lowercase letters', () => {
-    const match = { pattern: 'lowercaseRequired', token: 'PASSWORD123!', i: 0, j: 11 };
-    const score = lowercaseMatcher.scoring(match);
-    expect(score).to.equal(-100);
-  });
-});
+    it('should pass when lowercase letter is included', () => {
+      const result = zxcvbn.check('PASSWORd123!');
+      const hasLowercaseWarning = result.feedback.warning === customMatchersTranslations.warnings.lowercaseRequired;
 
-describe('numberMatcher', () => {
-  it('should return a match for missing numbers', () => {
-    const result = numberMatcher.Matching.prototype.match({ password: 'Password!' });
-    expect(result).to.deep.include({ pattern: 'numberRequired', token: 'Password!', i: 0, j: 8 });
-    expect(customMatchersTranslations.warnings.numberRequired).to.equal('At least one number is required.');
-    expect(customMatchersTranslations.suggestions.numberRequired).to.equal('Include at least one number.');
+      expect(hasLowercaseWarning).to.be.false;
+    });
   });
 
-  it('should return a score of -100 for missing numbers', () => {
-    const match = { pattern: 'numberRequired', token: 'Password!', i: 0, j: 8 };
-    const score = numberMatcher.scoring(match);
-    expect(score).to.equal(-100);
-  });
-});
+  describe('Number Requirement', () => {
+    it('should detect when numbers are missing', () => {
+      const result = zxcvbn.check('Passwdfsgsdfgdsfgord!');
+      const hasNumberWarning = result.feedback.warning === customMatchersTranslations.warnings.numberRequired;
 
-describe('specialMatcher', () => {
-  it('should return a match for missing special characters', () => {
-    const result = specialMatcher.Matching.prototype.match({ password: 'Password123' });
-    expect(result).to.deep.include({ pattern: 'specialRequired', token: 'Password123', i: 0, j: 10 });
-    expect(customMatchersTranslations.warnings.specialRequired).to.equal('At least one special character is required.');
-    expect(customMatchersTranslations.suggestions.specialRequired).to.equal('Include at least one special character.');
-  });
+      expect(hasNumberWarning).to.be.true;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
 
-  it('should return a score of -100 for missing special characters', () => {
-    const match = { pattern: 'specialRequired', token: 'Password123', i: 0, j: 10 };
-    const score = specialMatcher.scoring(match);
-    expect(score).to.equal(-100);
-  });
-});
+    it('should pass when number is included', () => {
+      const result = zxcvbn.check('Password1!');
+      const hasNumberWarning = result.feedback.warning === customMatchersTranslations.warnings.numberRequired;
 
-describe('minLengthMatcher', () => {
-  const minLength = 12;
-  const matcher = minLengthMatcher(minLength);
-
-  it('should return a match for passwords shorter than the minimum length', () => {
-    const result = matcher.Matching.prototype.match({ password: 'short' });
-    expect(result).to.deep.include({ pattern: 'minLength', token: 'short', i: 0, j: 4 });
-    expect(customMatchersTranslations.warnings.minLength).to.equal('Password must be at least 12 characters long.');
-    expect(customMatchersTranslations.suggestions.minLength).to.equal(
-      'Password may not be shorter than 12 characters.',
-    );
+      expect(hasNumberWarning).to.be.false;
+    });
   });
 
-  it('should return no matches for passwords meeting the minimum length', () => {
-    const result = matcher.Matching.prototype.match({ password: 'longenoughpassword' });
-    expect(result).to.be.empty;
+  describe('Special Character Requirement', () => {
+    it('should detect when special characters are missing', () => {
+      const result = zxcvbn.check('Password0123456');
+      const hasSpecialWarning = result.feedback.warning === customMatchersTranslations.warnings.specialRequired;
+
+      expect(hasSpecialWarning).to.be.true;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
+
+    it('should pass when special character is included', () => {
+      const result = zxcvbn.check('Password123!');
+      const hasSpecialWarning = result.feedback.warning === customMatchersTranslations.warnings.specialRequired;
+
+      expect(hasSpecialWarning).to.be.false;
+    });
   });
 
-  it('should return a score of -100 for passwords shorter than the minimum length', () => {
-    const match = { pattern: 'minLength', token: 'short', i: 0, j: 4 };
-    const score = matcher.scoring(match);
-    expect(score).to.equal(-100);
+  describe('Minimum Length Requirement', () => {
+    it('should detect passwords shorter than minimum length', () => {
+      const result = zxcvbn.check('short');
+      const expectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
+      const hasLengthWarning = result.feedback.warning === expectedWarning;
+
+      expect(hasLengthWarning).to.be.true;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
+
+    it('should pass for passwords meeting minimum length', () => {
+      const result = zxcvbn.check('longenoughpassword');
+      const hasLengthWarning = result.feedback.warning === customMatchersTranslations.warnings.minLength;
+
+      expect(hasLengthWarning).to.be.false;
+    });
   });
-});
 
-describe('multiple matchers', () => {
-  it('should return no matches for a password meeting all requirements', () => {
-    const resultUppercase = uppercaseMatcher.Matching.prototype.match({ password: 'Password123!' });
-    const resultLowercase = lowercaseMatcher.Matching.prototype.match({ password: 'Password123!' });
-    const resultNumber = numberMatcher.Matching.prototype.match({ password: 'Password123!' });
-    const resultSpecial = specialMatcher.Matching.prototype.match({ password: 'Password123!' });
+  describe('Combined Requirements', () => {
+    it('should pass all requirements for a compliant password', () => {
+      const result = zxcvbn.check(SAMPLE_STRONG_PASSWORD);
 
-    expect(resultUppercase).to.be.empty;
-    expect(resultLowercase).to.be.empty;
-    expect(resultNumber).to.be.empty;
-    expect(resultSpecial).to.be.empty;
+      expect(result.feedback.warning).to.be.null;
+      expect(result.score).to.equal(PERFECT_SCORE);
+    });
+
+    it('should detect multiple missing requirements', () => {
+      const result = zxcvbn.check('password');
+
+      expect(result.feedback.warning).to.not.be.undefined;
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
   });
 });
