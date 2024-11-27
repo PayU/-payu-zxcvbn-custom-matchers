@@ -9,31 +9,36 @@ npm install zxcvbn-custom-matchers
 
 ### Usage
 ```ts
-import { zxcvbnOptions } from '@zxcvbn-ts/core';
+import { ZxcvbnFactory } from '@zxcvbn-ts/core';
+import zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
+import zxcvbnEnPackage from '@zxcvbn-ts/language-en';
 import {
-    lowercaseMatcher,
     numberMatcher,
     specialMatcher,
+    lowercaseMatcher,
     uppercaseMatcher,
-    minLengthMatcher
+    minLengthMatcher,
+    customMatchersTranslations
 } from 'zxcvbn-custom-matchers';
+import { merge } from 'lodash';
 
 // Add the matchers' translations
 const options = {
+    dictionary: merge({}, zxcvbnCommonPackage.dictionary, zxcvbnEnPackage.dictionary),
     translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
 };
-zxcvbnOptions.setOptions(options);
-
-// Add the matchers
-zxcvbnOptions.addMatcher('lowercaseRequired', lowercaseMatcher);
-zxcvbnOptions.addMatcher('minLength', numberMatcher);
-zxcvbnOptions.addMatcher('numberRequired', specialMatcher);
-zxcvbnOptions.addMatcher('specialRequired', uppercaseMatcher);
-zxcvbnOptions.addMatcher('uppercaseRequired', minLengthMatcher(10));
+const customMatchers = {
+    minLength: minLengthMatcher(commons.MIN_PASSWORD_LENGTH),
+    specialRequired: specialMatcher,
+    numberRequired: numberMatcher,
+    lowercaseRequired: lowercaseMatcher,
+    uppercaseRequired: uppercaseMatcher
+};
+const zxcvbn = new ZxcvbnFactory(options, customMatchers);
 
 // Use zxcvbn as usual
 import { zxcvbn } from '@zxcvbn-ts/core';
-const result = zxcvbn('password123');
+const result = zxcvbn.check('password123');
 console.log(result);
 ```
 
