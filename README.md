@@ -17,6 +17,7 @@ import {
     lowercaseMatcher,
     uppercaseMatcher,
     minLengthMatcher,
+    maxLengthMatcher,
     customMatchersTranslations
 } from 'zxcvbn-custom-matchers';
 import { merge } from 'lodash';
@@ -26,7 +27,8 @@ const options = {
     translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
 };
 const customMatchers = {
-    minLength: minLengthMatcher(commons.MIN_PASSWORD_LENGTH),
+    minLength: minLengthMatcher(MIN_PASSWORD_LENGTH),
+    maxLength: maxLengthMatcher(MAX_PASSWORD_LENGTH),
     specialRequired: specialMatcher,
     numberRequired: numberMatcher,
     lowercaseRequired: lowercaseMatcher,
@@ -80,3 +82,10 @@ This project includes several matchers that enforce specific character requireme
 - **Purpose**: Ensures the password meets the minimum length requirement.
 - **Feedback**: Suggests the password must be at least the specified length if shorter.
 - **Scoring**: Returns a score of `1` if the password is shorter than the specified length.
+
+### Maximum Length Matcher
+
+- **Pattern**: `maxLength`
+- **Purpose**: Ensures the password meets the max length requirement.
+- **Feedback**: Suggests the password must be at least the specified length if longer.
+- **Scoring**: Returns a score of `1` if the password is longer than the specified length.
