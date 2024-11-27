@@ -10,8 +10,6 @@ npm install zxcvbn-custom-matchers
 ### Usage
 ```ts
 import { ZxcvbnFactory } from '@zxcvbn-ts/core';
-import zxcvbnCommonPackage from '@zxcvbn-ts/language-common';
-import zxcvbnEnPackage from '@zxcvbn-ts/language-en';
 import {
     numberMatcher,
     specialMatcher,
@@ -22,9 +20,8 @@ import {
 } from 'zxcvbn-custom-matchers';
 import { merge } from 'lodash';
 
-// Add the matchers' translations
+// Add the custom matchers and their translations
 const options = {
-    dictionary: merge({}, zxcvbnCommonPackage.dictionary, zxcvbnEnPackage.dictionary),
     translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
 };
 const customMatchers = {
