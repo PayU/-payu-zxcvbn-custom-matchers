@@ -7,7 +7,7 @@ import {
   numberMatcher,
   specialMatcher,
   minLengthMatcher,
-  customMatchersTranslations
+  customMatchersTranslations,
 } from '../../src';
 import { translations as baseTranslations } from '@zxcvbn-ts/language-en';
 import { merge } from 'lodash';
@@ -23,13 +23,12 @@ const customMatchers = {
   specialRequired: specialMatcher,
   numberRequired: numberMatcher,
   lowercaseRequired: lowercaseMatcher,
-  uppercaseRequired: uppercaseMatcher
+  uppercaseRequired: uppercaseMatcher,
 };
 
 const mergedTranslations = merge({}, baseTranslations, customMatchersTranslations);
 const options: OptionsType = { translations: mergedTranslations };
 const zxcvbn = new ZxcvbnFactory(options, customMatchers);
-
 
 describe('Password Validation Requirements', () => {
   describe('Uppercase Character Requirement', () => {
