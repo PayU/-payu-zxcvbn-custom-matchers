@@ -2,17 +2,19 @@ import 'mocha';
 import { expect } from 'chai';
 import { ZxcvbnFactory, type OptionsType } from '@zxcvbn-ts/core';
 import {
+  specialMatcher,
+  numberMatcher,
   uppercaseMatcher,
   lowercaseMatcher,
-  numberMatcher,
-  specialMatcher,
   minLengthMatcher,
+  maxLengthMatcher,
   customMatchersTranslations,
 } from '../../src';
 import { translations as baseTranslations } from '@zxcvbn-ts/language-en';
 import { merge } from 'lodash';
 
 const MIN_LENGTH = 12;
+const MAX_LENGTH = 50;
 const MIN_SECURE_SCORE = 3;
 const PERFECT_SCORE = 4;
 const SAMPLE_STRONG_PASSWORD = 'de#dSh251dft!';
@@ -20,6 +22,7 @@ const SAMPLE_STRONG_PASSWORD = 'de#dSh251dft!';
 // Package setup
 const customMatchers = {
   minLength: minLengthMatcher(MIN_LENGTH),
+  maxLength: maxLengthMatcher(MAX_LENGTH),
   specialRequired: specialMatcher,
   numberRequired: numberMatcher,
   lowercaseRequired: lowercaseMatcher,
@@ -129,6 +132,30 @@ describe('Password Validation Requirements', () => {
       const result = zxcvbn.check(validPassword);
       const unexpectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
       const unexpectedSuggestion = customMatchersTranslations.suggestions.minLength.replace('%s', String(MIN_LENGTH));
+
+      expect(result.feedback.warning).to.not.equal(unexpectedWarning);
+      expect(result.feedback.suggestions).to.not.include(unexpectedSuggestion);
+    });
+  });
+
+  describe('Maximum Length Requirement', () => {
+    const testPassword = 'a'.repeat(MAX_LENGTH) + '@A3';
+    const validPassword = 'longenougS2@hpassword';
+
+    it('should provide appropriate warning and suggestion for long passwords', () => {
+      const result = zxcvbn.check(testPassword);
+      const expectedWarning = customMatchersTranslations.warnings.maxLength.replace('%s', String(MAX_LENGTH));
+      const expectedSuggestion = customMatchersTranslations.suggestions.maxLength.replace('%s', String(MAX_LENGTH));
+
+      expect(result.feedback.warning).to.equal(expectedWarning);
+      expect(result.feedback.suggestions).to.include(expectedSuggestion);
+      expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
+    });
+
+    it('should not show length warnings or suggestions when requirement is met', () => {
+      const result = zxcvbn.check(validPassword);
+      const unexpectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MAX_LENGTH));
+      const unexpectedSuggestion = customMatchersTranslations.suggestions.minLength.replace('%s', String(MAX_LENGTH));
 
       expect(result.feedback.warning).to.not.equal(unexpectedWarning);
       expect(result.feedback.suggestions).to.not.include(unexpectedSuggestion);
