@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const lowercaseMatcher: Matcher = {
   Matching: class LowercaseMatcher {
@@ -15,11 +15,11 @@ export const lowercaseMatcher: Matcher = {
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.lowercaseRequired || 'lowercaseRequired',
-      suggestions: [options.translations.suggestions.lowercaseRequired || 'lowercaseRequired'],
+      warning: options.translations.warnings['lowercaseRequired'] || 'lowercaseRequired',
+      suggestions: [options.translations.suggestions['lowercaseRequired'] || 'lowercaseRequired'],
     };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };

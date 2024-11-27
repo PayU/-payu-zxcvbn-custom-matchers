@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const specialMatcher: Matcher = {
   Matching: class SpecialMatcher {
@@ -16,11 +16,11 @@ export const specialMatcher: Matcher = {
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.specialRequired || 'specialRequired',
-      suggestions: [options.translations.suggestions.specialRequired || 'specialRequired'],
+      warning: options.translations.warnings['specialRequired'] || 'specialRequired',
+      suggestions: [options.translations.suggestions['specialRequired'] || 'specialRequired'],
     };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };

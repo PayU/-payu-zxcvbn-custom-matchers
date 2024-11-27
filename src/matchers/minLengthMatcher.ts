@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const minLengthMatcher = (minLength: number): Matcher => ({
   Matching: class MinLengthMatcher {
@@ -12,11 +12,11 @@ export const minLengthMatcher = (minLength: number): Matcher => ({
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.minLength?.replace('%s', minLength) || 'minLength',
-      suggestions: [options.translations.suggestions.minLength?.replace('%s', minLength) || 'minLength'],
+      warning: options.translations.warnings['minLength']?.replace('%s', minLength) || 'minLength',
+      suggestions: [options.translations.suggestions['minLength']?.replace('%s', minLength) || 'minLength'],
     };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 });

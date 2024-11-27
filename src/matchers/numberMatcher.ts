@@ -1,4 +1,4 @@
-import { Matcher, Match } from '@zxcvbn-ts/core/dist/types';
+import { Matcher, Match } from '@zxcvbn-ts/core';
 
 export const numberMatcher: Matcher = {
   Matching: class NumberMatcher {
@@ -15,11 +15,11 @@ export const numberMatcher: Matcher = {
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings.numberRequired || 'numberRequired',
-      suggestions: [options.translations.suggestions.numberRequired || 'numberRequired'],
+      warning: options.translations.warnings['numberRequired'] || 'numberRequired',
+      suggestions: [options.translations.suggestions['numberRequired'] || 'numberRequired'],
     };
   },
-  scoring(_match) {
+  scoring() {
     return -100;
   },
 };
