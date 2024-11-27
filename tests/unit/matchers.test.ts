@@ -1,11 +1,14 @@
 import 'mocha';
 import { expect } from 'chai';
 import { uppercaseMatcher, lowercaseMatcher, numberMatcher, specialMatcher, minLengthMatcher } from '../../src';
+import { customMatchersTranslations } from '../../src/translations';
 
 describe('uppercaseMatcher', () => {
   it('should return a match for missing uppercase letters', () => {
     const result = uppercaseMatcher.Matching.prototype.match({ password: 'password123!' });
     expect(result).to.deep.include({ pattern: 'uppercaseRequired', token: 'password123!', i: 0, j: 11 });
+    expect(customMatchersTranslations.warnings.uppercaseRequired).to.equal('At least one uppercase letter is required.');
+    expect(customMatchersTranslations.suggestions.uppercaseRequired).to.equal('Include at least one uppercase letter.');
   });
 
   it('should return a score of -100 for missing uppercase letters', () => {
@@ -19,6 +22,8 @@ describe('lowercaseMatcher', () => {
   it('should return a match for missing lowercase letters', () => {
     const result = lowercaseMatcher.Matching.prototype.match({ password: 'PASSWORD123!' });
     expect(result).to.deep.include({ pattern: 'lowercaseRequired', token: 'PASSWORD123!', i: 0, j: 11 });
+    expect(customMatchersTranslations.warnings.lowercaseRequired).to.equal('At least one lowercase letter is required.');
+    expect(customMatchersTranslations.suggestions.lowercaseRequired).to.equal('Include at least one lowercase letter.');
   });
 
   it('should return a score of -100 for missing lowercase letters', () => {
@@ -32,6 +37,8 @@ describe('numberMatcher', () => {
   it('should return a match for missing numbers', () => {
     const result = numberMatcher.Matching.prototype.match({ password: 'Password!' });
     expect(result).to.deep.include({ pattern: 'numberRequired', token: 'Password!', i: 0, j: 8 });
+    expect(customMatchersTranslations.warnings.numberRequired).to.equal('At least one number is required.');
+    expect(customMatchersTranslations.suggestions.numberRequired).to.equal('Include at least one number.');
   });
 
   it('should return a score of -100 for missing numbers', () => {
@@ -45,6 +52,8 @@ describe('specialMatcher', () => {
   it('should return a match for missing special characters', () => {
     const result = specialMatcher.Matching.prototype.match({ password: 'Password123' });
     expect(result).to.deep.include({ pattern: 'specialRequired', token: 'Password123', i: 0, j: 10 });
+    expect(customMatchersTranslations.warnings.specialRequired).to.equal('At least one special character is required.');
+    expect(customMatchersTranslations.suggestions.specialRequired).to.equal('Include at least one special character.');
   });
 
   it('should return a score of -100 for missing special characters', () => {
@@ -61,6 +70,8 @@ describe('minLengthMatcher', () => {
   it('should return a match for passwords shorter than the minimum length', () => {
     const result = matcher.Matching.prototype.match({ password: 'short' });
     expect(result).to.deep.include({ pattern: 'minLength', token: 'short', i: 0, j: 4 });
+    expect(customMatchersTranslations.warnings.minLength).to.equal('Password must be at least 12 characters long.');
+    expect(customMatchersTranslations.suggestions.minLength).to.equal('Password may not be shorter than 12 characters.');
   });
 
   it('should return no matches for passwords meeting the minimum length', () => {
