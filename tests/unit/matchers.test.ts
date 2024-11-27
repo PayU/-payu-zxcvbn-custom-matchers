@@ -12,13 +12,12 @@ import {
 import { translations as baseTranslations } from '@zxcvbn-ts/language-en';
 import { merge } from 'lodash';
 
-// Constants
 const MIN_LENGTH = 12;
 const MIN_SECURE_SCORE = 3;
 const PERFECT_SCORE = 4;
 const SAMPLE_STRONG_PASSWORD = 'de#dSh251dft!';
 
-// Configuration setup
+// Package setup
 const customMatchers = {
   minLength: minLengthMatcher(MIN_LENGTH),
   specialRequired: specialMatcher,
@@ -31,9 +30,7 @@ const mergedTranslations = merge({}, baseTranslations, customMatchersTranslation
 const options: OptionsType = { translations: mergedTranslations };
 const zxcvbn = new ZxcvbnFactory(options, customMatchers);
 
-/**
- * Test suite for password validation requirements, warnings, and suggestions
- */
+
 describe('Password Validation Requirements', () => {
   describe('Uppercase Character Requirement', () => {
     const testPassword = 'password123!';
