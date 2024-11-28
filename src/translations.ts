@@ -9,8 +9,8 @@ export const customMatchersTranslations = {
   },
   suggestions: {
     lowercaseRequired: 'Include at least one lowercase letter.',
-    minLength: 'Password may not be shorter than %s characters.',
-    maxLength: 'Password may not be longer than %s characters.',
+    minLength: 'Make your password at least %s characters long.',
+    maxLength: 'Reduce your password to no more than %s characters.',
     numberRequired: 'Include at least one number.',
     specialRequired: 'Include at least one special character.',
     uppercaseRequired: 'Include at least one uppercase letter.',
