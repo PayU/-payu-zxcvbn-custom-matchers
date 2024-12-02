@@ -8,7 +8,8 @@ import {
   lowercaseMatcher,
   minLengthMatcher,
   maxLengthMatcher,
-  customMatchersTranslations,
+  MatchersTranslations,
+  MatcherNames,
 } from '../../src';
 import { translations as baseTranslations } from '@zxcvbn-ts/language-en';
 import { merge } from 'lodash';
@@ -21,15 +22,15 @@ const SAMPLE_STRONG_PASSWORD = 'de#dSh251dft!';
 
 // Package setup
 const customMatchers = {
-  minLength: minLengthMatcher(MIN_LENGTH),
-  maxLength: maxLengthMatcher(MAX_LENGTH),
-  specialRequired: specialMatcher,
-  numberRequired: numberMatcher,
-  lowercaseRequired: lowercaseMatcher,
-  uppercaseRequired: uppercaseMatcher,
+  [MatcherNames.minLength]: minLengthMatcher(MIN_LENGTH),
+  [MatcherNames.maxLength]: maxLengthMatcher(MAX_LENGTH),
+  [MatcherNames.specialChar]: specialMatcher,
+  [MatcherNames.number]: numberMatcher,
+  [MatcherNames.lowercase]: lowercaseMatcher,
+  [MatcherNames.uppercase]: uppercaseMatcher,
 };
 
-const mergedTranslations = merge({}, baseTranslations, customMatchersTranslations);
+const mergedTranslations = merge({}, baseTranslations, MatchersTranslations);
 const options: OptionsType = { translations: mergedTranslations };
 const zxcvbn = new ZxcvbnFactory(options, customMatchers);
 
@@ -41,16 +42,17 @@ describe('Password Validation Requirements', () => {
     it('should provide appropriate warning and suggestion when uppercase letters are missing', () => {
       const result = zxcvbn.check(testPassword);
 
-      expect(result.feedback.warning).to.equal(customMatchersTranslations.warnings.uppercaseRequired);
-      expect(result.feedback.suggestions).to.include(customMatchersTranslations.suggestions.uppercaseRequired);
+      console.info(result.feedback);
+      expect(result.feedback.warning).to.equal(MatchersTranslations.warnings.uppercase);
+      expect(result.feedback.suggestions).to.include(MatchersTranslations.suggestions.uppercase);
       expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
     });
 
     it('should not show uppercase warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
 
-      expect(result.feedback.warning).to.not.equal(customMatchersTranslations.warnings.uppercaseRequired);
-      expect(result.feedback.suggestions).to.not.include(customMatchersTranslations.suggestions.uppercaseRequired);
+      expect(result.feedback.warning).to.not.equal(MatchersTranslations.warnings.uppercase);
+      expect(result.feedback.suggestions).to.not.include(MatchersTranslations.suggestions.uppercase);
     });
   });
 
@@ -61,16 +63,16 @@ describe('Password Validation Requirements', () => {
     it('should provide appropriate warning and suggestion when lowercase letters are missing', () => {
       const result = zxcvbn.check(testPassword);
 
-      expect(result.feedback.warning).to.equal(customMatchersTranslations.warnings.lowercaseRequired);
-      expect(result.feedback.suggestions).to.include(customMatchersTranslations.suggestions.lowercaseRequired);
+      expect(result.feedback.warning).to.equal(MatchersTranslations.warnings.lowercase);
+      expect(result.feedback.suggestions).to.include(MatchersTranslations.suggestions.lowercase);
       expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
     });
 
     it('should not show lowercase warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
 
-      expect(result.feedback.warning).to.not.equal(customMatchersTranslations.warnings.lowercaseRequired);
-      expect(result.feedback.suggestions).to.not.include(customMatchersTranslations.suggestions.lowercaseRequired);
+      expect(result.feedback.warning).to.not.equal(MatchersTranslations.warnings.lowercase);
+      expect(result.feedback.suggestions).to.not.include(MatchersTranslations.suggestions.lowercase);
     });
   });
 
@@ -81,16 +83,16 @@ describe('Password Validation Requirements', () => {
     it('should provide appropriate warning and suggestion when numbers are missing', () => {
       const result = zxcvbn.check(testPassword);
 
-      expect(result.feedback.warning).to.equal(customMatchersTranslations.warnings.numberRequired);
-      expect(result.feedback.suggestions).to.include(customMatchersTranslations.suggestions.numberRequired);
+      expect(result.feedback.warning).to.equal(MatchersTranslations.warnings.number);
+      expect(result.feedback.suggestions).to.include(MatchersTranslations.suggestions.number);
       expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
     });
 
     it('should not show number warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
 
-      expect(result.feedback.warning).to.not.equal(customMatchersTranslations.warnings.numberRequired);
-      expect(result.feedback.suggestions).to.not.include(customMatchersTranslations.suggestions.numberRequired);
+      expect(result.feedback.warning).to.not.equal(MatchersTranslations.warnings.number);
+      expect(result.feedback.suggestions).to.not.include(MatchersTranslations.suggestions.number);
     });
   });
 
@@ -101,16 +103,16 @@ describe('Password Validation Requirements', () => {
     it('should provide appropriate warning and suggestion when special characters are missing', () => {
       const result = zxcvbn.check(testPassword);
 
-      expect(result.feedback.warning).to.equal(customMatchersTranslations.warnings.specialRequired);
-      expect(result.feedback.suggestions).to.include(customMatchersTranslations.suggestions.specialRequired);
+      expect(result.feedback.warning).to.equal(MatchersTranslations.warnings.specialChar);
+      expect(result.feedback.suggestions).to.include(MatchersTranslations.suggestions.specialChar);
       expect(result.score).to.be.lessThan(MIN_SECURE_SCORE);
     });
 
     it('should not show special character warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
 
-      expect(result.feedback.warning).to.not.equal(customMatchersTranslations.warnings.specialRequired);
-      expect(result.feedback.suggestions).to.not.include(customMatchersTranslations.suggestions.specialRequired);
+      expect(result.feedback.warning).to.not.equal(MatchersTranslations.warnings.specialChar);
+      expect(result.feedback.suggestions).to.not.include(MatchersTranslations.suggestions.specialChar);
     });
   });
 
@@ -120,8 +122,8 @@ describe('Password Validation Requirements', () => {
 
     it('should provide appropriate warning and suggestion for short passwords', () => {
       const result = zxcvbn.check(testPassword);
-      const expectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
-      const expectedSuggestion = customMatchersTranslations.suggestions.minLength.replace('%s', String(MIN_LENGTH));
+      const expectedWarning = MatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
+      const expectedSuggestion = MatchersTranslations.suggestions.minLength.replace('%s', String(MIN_LENGTH));
 
       expect(result.feedback.warning).to.equal(expectedWarning);
       expect(result.feedback.suggestions).to.include(expectedSuggestion);
@@ -130,8 +132,8 @@ describe('Password Validation Requirements', () => {
 
     it('should not show length warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
-      const unexpectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
-      const unexpectedSuggestion = customMatchersTranslations.suggestions.minLength.replace('%s', String(MIN_LENGTH));
+      const unexpectedWarning = MatchersTranslations.warnings.minLength.replace('%s', String(MIN_LENGTH));
+      const unexpectedSuggestion = MatchersTranslations.suggestions.minLength.replace('%s', String(MIN_LENGTH));
 
       expect(result.feedback.warning).to.not.equal(unexpectedWarning);
       expect(result.feedback.suggestions).to.not.include(unexpectedSuggestion);
@@ -144,8 +146,8 @@ describe('Password Validation Requirements', () => {
 
     it('should provide appropriate warning and suggestion for long passwords', () => {
       const result = zxcvbn.check(testPassword);
-      const expectedWarning = customMatchersTranslations.warnings.maxLength.replace('%s', String(MAX_LENGTH));
-      const expectedSuggestion = customMatchersTranslations.suggestions.maxLength.replace('%s', String(MAX_LENGTH));
+      const expectedWarning = MatchersTranslations.warnings.maxLength.replace('%s', String(MAX_LENGTH));
+      const expectedSuggestion = MatchersTranslations.suggestions.maxLength.replace('%s', String(MAX_LENGTH));
 
       expect(result.feedback.warning).to.equal(expectedWarning);
       expect(result.feedback.suggestions).to.include(expectedSuggestion);
@@ -154,8 +156,8 @@ describe('Password Validation Requirements', () => {
 
     it('should not show length warnings or suggestions when requirement is met', () => {
       const result = zxcvbn.check(validPassword);
-      const unexpectedWarning = customMatchersTranslations.warnings.minLength.replace('%s', String(MAX_LENGTH));
-      const unexpectedSuggestion = customMatchersTranslations.suggestions.minLength.replace('%s', String(MAX_LENGTH));
+      const unexpectedWarning = MatchersTranslations.warnings.minLength.replace('%s', String(MAX_LENGTH));
+      const unexpectedSuggestion = MatchersTranslations.suggestions.minLength.replace('%s', String(MAX_LENGTH));
 
       expect(result.feedback.warning).to.not.equal(unexpectedWarning);
       expect(result.feedback.suggestions).to.not.include(unexpectedSuggestion);

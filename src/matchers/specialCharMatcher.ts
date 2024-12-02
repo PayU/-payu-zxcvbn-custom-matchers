@@ -1,5 +1,7 @@
 import { Matcher, Match } from '@zxcvbn-ts/core';
+import { MatcherNames } from '../matcherNames';
 
+const matcher = MatcherNames.specialChar;
 export const specialMatcher: Matcher = {
   Matching: class SpecialMatcher {
     match({ password }: { password: string }): Match[] {
@@ -10,14 +12,14 @@ export const specialMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'specialRequired', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: matcher, token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings['specialRequired'] || 'specialRequired',
-      suggestions: [options.translations.suggestions['specialRequired'] || 'specialRequired'],
+      warning: options.translations.warnings[matcher] || matcher,
+      suggestions: [options.translations.suggestions[matcher] || matcher],
     };
   },
   scoring() {
