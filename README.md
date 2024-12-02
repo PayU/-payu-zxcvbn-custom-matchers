@@ -18,21 +18,22 @@ import {
     uppercaseMatcher,
     minLengthMatcher,
     maxLengthMatcher,
-    customMatchersTranslations
+    MatchersTranslations,
+    MatcherNames
 } from 'zxcvbn-custom-matchers';
 import { merge } from 'lodash';
 
 // Add the custom matchers and their translations
 const options = {
-    translations: merge({}, zxcvbnEnPackage.translations, customMatchersTranslations)
+    translations: merge({}, zxcvbnEnPackage.translations, MatchersTranslations)
 };
 const customMatchers = {
-    minLength: minLengthMatcher(MIN_PASSWORD_LENGTH),
-    maxLength: maxLengthMatcher(MAX_PASSWORD_LENGTH),
-    specialRequired: specialMatcher,
-    numberRequired: numberMatcher,
-    lowercaseRequired: lowercaseMatcher,
-    uppercaseRequired: uppercaseMatcher
+    [MatcherNames.minLengh]: minLengthMatcher(MIN_PASSWORD_LENGTH),
+    [MatcherNames.maxLength]: maxLengthMatcher(MAX_PASSWORD_LENGTH),
+    [MatcherNames.special]: specialMatcher,
+    [MatcherNames.numberRequired]: numberMatcher,
+    [MatcherNames.lowercase]: lowercaseMatcher,
+    [MatcherNames.uppercase]: uppercaseMatcher
 };
 const zxcvbn = new ZxcvbnFactory(options, customMatchers);
 

@@ -1,5 +1,7 @@
 import { Matcher, Match } from '@zxcvbn-ts/core';
+import { MatcherNames } from '../matcherNames';
 
+const matcher = MatcherNames.lowercase;
 export const lowercaseMatcher: Matcher = {
   Matching: class LowercaseMatcher {
     match({ password }: { password: string }): Match[] {
@@ -9,14 +11,14 @@ export const lowercaseMatcher: Matcher = {
           return matches;
         }
       }
-      matches.push({ pattern: 'lowercaseRequired', token: password, i: 0, j: password.length - 1 });
+      matches.push({ pattern: matcher, token: password, i: 0, j: password.length - 1 });
       return matches;
     }
   },
   feedback: options => {
     return {
-      warning: options.translations.warnings['lowercaseRequired'] || 'lowercaseRequired',
-      suggestions: [options.translations.suggestions['lowercaseRequired'] || 'lowercaseRequired'],
+      warning: options.translations.warnings[matcher] || matcher,
+      suggestions: [options.translations.suggestions[matcher] || matcher],
     };
   },
   scoring() {
