@@ -28,7 +28,7 @@ const options = {
     translations: merge({}, zxcvbnEnPackage.translations, MatchersTranslations)
 };
 const customMatchers = {
-    [MatcherNames.minLengh]: minLengthMatcher(MIN_PASSWORD_LENGTH),
+    [MatcherNames.minLength]: minLengthMatcher(MIN_PASSWORD_LENGTH),
     [MatcherNames.maxLength]: maxLengthMatcher(MAX_PASSWORD_LENGTH),
     [MatcherNames.special]: specialMatcher,
     [MatcherNames.numberRequired]: numberMatcher,
