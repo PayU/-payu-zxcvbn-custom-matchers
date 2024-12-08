@@ -3,6 +3,7 @@
 The package is adding custom matchers to the zxcvbn-ts package. The matchers enforce specific character requirements in passwords and provide feedback and scoring.
 > Please note! this package works only with zxcvbn-ts v.4 and above.
 
+
 ## Installation
 ```sh
 npm install zxcvbn-custom-matchers
